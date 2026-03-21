@@ -1,5 +1,8 @@
 import nltk, pygame,json,time,os
+import tkinter as tk
+from tkinter import ttk
 from nltk.chat.util import Chat, reflections
+
 
 pygame.mixer.init()
 pygame.init()
@@ -42,7 +45,7 @@ Pares = [
   ]
   ]
 
-class Primus:
+'''class Primus:
     def __init__(self):
         print("carregando", end="", flush=True)
         time.sleep(1)
@@ -76,43 +79,78 @@ class Primus:
                 break
 
             else:
-                print(chat)
+                print(chat)'''
+
+root = tk.Tk()
+root.title("Que desperte Optimus Prime")
+frm = ttk.Frame(root, padding=60)
+frm.grid()
 
 class Unicron:
-  def __init__(self):
-     print("carregando", end="", flush=True)
-     time.sleep(1)
-     print(".", end="", flush=True)
-     time.sleep(0.3)
-     print(".", end="", flush=True)
-     time.sleep(0.3)
-     print(".")
-     print("operando")
+    def __init__(self):
+        self.resposta = Chat(Pares, reflections)
+        
+        ttk.Label(frm, text="autobots").grid(column=0, row=0)
 
-     self.resposta = Chat(Pares, reflections)
-def megatron(self):
-        while True:
-            try:
-                chat = self.resposta.respond(str(input('-->')))
+        self.label = ttk.Label(frm, text="carregando")
+        self.label.grid(column=0, row=2)
 
-                if chat in discursos:
-                    print(chat)
+        self.comando = ttk.Label(frm, text="")
+        self.comando.grid(column=0, row=5)
+
+        self.resposta_label = ttk.Label(frm, text="")
+        self.resposta_label.grid(column=0, row=6)
+        
+        self.entrada = tk.StringVar()
+        
+        self.conversa = ttk.Entry(frm, textvariable=self.entrada)
+        
+        self.button = ttk.Button(frm, text="<>", command=self.megatron)
+    
+        self.animar()
+    
+    
+    def animar(self, pontos=0):
+        if pontos <= 3:
+            self.label.config(text="carregando" + "." * pontos)
+            root.after(500, lambda: self.animar(pontos + 1))
+        else:
+            self.label.config(text="operando")
+            self.conversa.grid(column=0, row=3)
+            self.button.grid(column=0, row=4)
+    
+    def megatron(self):
+        texto= self.entrada.get()
+        self.comando.config(text="vc: {}".format(texto))
+        chat = self.resposta.respond(texto)
+        if chat in discursos:
+                    self.resposta_label.config(text=chat)
                     pygame.mixer.music.load(grupos[chat])
                     pygame.mixer.music.play()
-                    while pygame.mixer.music.get_busy():
-                        time.sleep(0.5)
-                    continue
+                    pygame.mixer.music.get_busy()
+                        
+                    
 
-                elif chat in ["olha que dialogo merda!!!"]:
-                    print(chat)
-                    break
+        elif chat in ["olha que dialogo merda!!!"]:
+                    self.resposta_label.config(text=chat)
+                    root.after(3000,root.destroy)
+            
 
-            except KeyboardInterrupt:
-                break
+        else:
+            self.resposta_label.config(text=chat)
 
-            else:
-                print(chat)
+
+
+#ttk.Label(frm, text="Hello World!" ).grid(column=0, row=0)
+
+
+
+
+
 
 
 if __name__ == "__main__":
-    Primus().prime()
+    #Primus().prime()
+    Unicron()
+    root.mainloop()
+    
