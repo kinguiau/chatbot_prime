@@ -45,7 +45,7 @@ Pares = [
   ]
   ]
 
-'''class Primus:
+class Primus:
     def __init__(self):
         print("carregando", end="", flush=True)
         time.sleep(1)
@@ -79,7 +79,7 @@ Pares = [
                 break
 
             else:
-                print(chat)'''
+                print(chat)
 
 root = tk.Tk()
 root.title("Que desperte Optimus Prime")
