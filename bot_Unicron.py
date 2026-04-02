@@ -4,6 +4,7 @@ from tkinter import ttk
 from nltk.chat.util import Chat, reflections
 from PIL import Image, ImageTk
 
+
 pygame.mixer.init()
 pygame.init()
 busca = os.path.dirname(__file__)
@@ -13,7 +14,7 @@ with open(os.path.join(busca, 'text.json'), "r", encoding="utf-8") as f:
 
 Pares = [
   [
-    r"oi|ola|viado|bom dia",["oi","saudações"]  
+    r"oi|ola|viado|bom dia",dados["saudacoes"]  
   ],
   [
     r"puto|disgraça|arrombado",["não foi o que tua mãe disse","bem tu seu arrombado de merda, fela da puta disgraçado","tua mãe é minha"]
@@ -43,11 +44,10 @@ class Unicron:
     def __init__(self):
         self.resposta = Chat(Pares, reflections)
 
-
         caminho = os.path.join(busca, "lilith 1.png")
 
         img = Image.open(caminho)
-        img = img.resize((200, 120))  # (largura, altura)
+        img = img.resize((200, 120))
 
         self.img = ImageTk.PhotoImage(img)
 
@@ -55,19 +55,19 @@ class Unicron:
         self.imagem.grid(column=0, row=0)
         self.imagem.lower()
 
-        ttk.Label(frm, text="autobots").grid(column=0, row=0)
+        ttk.Label(frm, text="autobots").grid(column=0, row=1)
 
         self.label = ttk.Label(frm, text="carregando")
-        self.label.grid(column=0, row=2)
+        self.label.grid(column=0, row=3)
 
         self.comando = ttk.Label(frm, text="")
-        self.comando.grid(column=0, row=5)
+        self.comando.grid(column=0, row=6)
 
         self.barra = ttk.Label(frm, text="", style="Barra_Carregar.TLabel")
-        self.barra.grid(column=0, row=3)
+        self.barra.grid(column=0, row=4)
 
         self.resposta_label = ttk.Label(frm, text="")
-        self.resposta_label.grid(column=0, row=6)
+        self.resposta_label.grid(column=0, row=7)
         
         self.entrada = tk.StringVar()
         
@@ -86,13 +86,13 @@ class Unicron:
         
         else:
             self.label.config(text="operando", font=22)
-            self.conversa.grid(column=0, row=3)
-            self.button.grid(column=0, row=4)
+            self.conversa.grid(column=0, row=4)
+            self.button.grid(column=0, row=5)
     
     def megatron(self):
         texto= self.entrada.get()
         self.comando.config(text="vc: {}".format(texto))
-        chat = self.resposta.respond(texto)
+        chat = self.resposta.respond(texto.lower())
         
         if chat in dados["discursos"]:
             self.resposta_label.config(text=chat)
