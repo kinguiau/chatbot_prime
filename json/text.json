@@ -1,4 +1,18 @@
-{"discursos": [
+{
+"saudacao_user":["oi","ola","viado","bom dia"],    
+"saudacao_bot":["oi","saudações"],
+
+"nome_pergunta":["qual seu nome?","como você se chama?"],
+"nome_resposta":["meu nome é Optimus Prime","sou denominado Optimus Prime"],
+
+"encerrar_user":["isso acaba aqui","comunicação encerrada","tchau","quitei","gg ez"],
+"encerrar_bot":["olha que dialogo merda!!!"],
+
+
+
+
+"discurso_pedido":["mande a braba","farme aura","discurso"],
+"discursos": [
  "Sem o Allspark não podemos levar a vida de volta ao nosso planeta.\n Então o destino trouxe sua recompensa. Um novo mundo para chamarmos de casa.\n Vivemos entre os humanos agora, sempre escondidos, mas vigiando eles em segredo.\n Esperando, protegendo. Eu testemunhei a capacidade e a coragem deles.\n E embora sejamos de mundos distintos, como nós eles são mais do que os olhos podem ver.\n Eu sou Optimus Prime. E mando esta mensagem para qualquer Autobot sobrevivente que esteja refugiando entre as estrelas.\n Nós estamos aqui. Nós estamos esperando",
  "Nossas espécies unidas por um passado há muito esquecido e aliadas para enfrentar o futuro.\n Eu sou Optimus Prime e deixo esta mensagem para que nossas histórias sejam lembradas.\n Pois nestas memórias seremos eternos",
  "Em qualquer guerra, a calmaria vem entre as tempestades.\n Terão dias em que perderemos a fé, dias em que nossos aliados se voltarão contra nós,\n mas nunca chegará o dia em que deixaremos este planeta e seu povo.",

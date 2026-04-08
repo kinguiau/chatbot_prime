@@ -1,40 +1,18 @@
-import nltk, pygame,json,time,os
+import pygame,json,time,os
 import tkinter as tk
 from tkinter import ttk
-from nltk.chat.util import Chat, reflections
 from PIL import Image, ImageTk
+from bot_reactions import reagir
 
 
-pygame.mixer.init()
-pygame.init()
 busca = os.path.dirname(__file__)
 caminho_json = os.path.join(busca, "json")
 caminho_lilith = os.path.join(busca, "lilith")
-caminho_discursos = os.path.join(busca, "optimus")
+
 
 with open(os.path.join(caminho_json,'text.json'), "r", encoding="utf-8") as f:
     dados = json.load(f)
 
-Pares = [
-  [
-    r"oi|ola|viado|bom dia",dados["saudacoes"]  
-  ],
-  [
-    r"puto|disgraça|arrombado",["não foi o que tua mãe disse","bem tu seu arrombado de merda, fela da puta disgraçado","tua mãe é minha"]
-  ],
-  [
-    r"uau",["que massa","que legal"]
-  ],
-  [
-    r"qual seu nome?|como você se chama?",["meu nome é PRIMUS","sou denominado PRIMUS"]  
-  ],
-  [
-    r"mande a braba|farme aura|discurso", dados["discursos"]
-  ],
-  [
-    r"isso acaba aqui|comunicação encerrada|tchau|quitei|gg ez", ["olha que dialogo merda!!!"]
-  ]
-  ]
 
 janela = tk.Tk()
 janela.geometry("500x300")
@@ -63,7 +41,7 @@ img = img.resize((200, 120))
 
 class Unicron:
     def __init__(self):
-        self.resposta = Chat(Pares, reflections)
+        
 
         self.img = ImageTk.PhotoImage(img)
         self.imagem = ttk.Label(janela, image=self.img)  #imagem da lilith
@@ -116,27 +94,28 @@ class Unicron:
     def megatron(self):
         texto= self.conversa.get()
         self.comando.config(text=f"vc: {texto}")
-        chat = "chat: "+self.resposta.respond(texto.lower()) #chama a reação do bot
-        self.resposta_label.pack(pady=(n+int(6))) #resposta do bot
+        
+        self.resposta_label.pack(pady=(n+int(6))) #posição da resposta do bot
 
-        if chat in dados["discursos"]: #tocar discursos
-            self.resposta_label.config(text=chat)
-            pygame.mixer.music.load(os.path.join(caminho_discursos, dados['grupos'][chat])) 
-            pygame.mixer.music.play()
-            pygame.mixer.music.get_busy()
-                        
-                    
+        if texto in dados['saudacao_user']: #falar uma saudação
+            self.resposta_label.config(text=reagir().saudacao())
 
-        elif chat in ["olha que dialogo merda!!!"]:   #fechar de forma dramatica
-            self.resposta_label.config(text=chat)
+        elif texto in dados['nome_resposta']: #dizer nome
+            self.resposta_label.config(text=reagir.denominacao())
+
+        elif texto in dados["discurso_pedido"]: #tocar discursos
+            self.escolha =reagir().escolha_discurso()
+            self.resposta_label.config(text=self.escolha)
+            reagir().discursar(self.escolha)
+                      
+        elif texto in dados["encerrar_user"]:   #fechar de forma dramatica
+            self.resposta_label.config(text=dados['encerrar_bot'])
             janela.after(3000,janela.destroy)
-            
-
-        elif chat == None:     #caso o bot não tenha uma reação configurada
+          
+        else:     #caso o bot não tenha uma reação configurada
             self.resposta_label.config(text="isso está fora das interações")
 
-        else:   #chamar reações normais do bot
-            self.resposta_label.config(text=chat)
+        
 
 
 
