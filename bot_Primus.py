@@ -6,8 +6,12 @@ pygame.mixer.init()
 pygame.init()
 busca = os.path.dirname(__file__)
 
-with open(os.path.join(busca, 'text.json'), "r", encoding="utf-8") as f:
+caminho_json = os.path.join(busca, "json")
+caminho_discursos = os.path.join(busca, "optimus")
+
+with open(os.path.join(caminho_json,'text.json'), "r", encoding="utf-8") as f:
     dados = json.load(f)
+
 
 Pares = [
   [
@@ -47,7 +51,7 @@ class Primus:
 
                 if chat in dados["discursos"]:
                     print(chat)
-                    pygame.mixer.music.load(dados["grupos"][chat])
+                    pygame.mixer.music.load(os.path.join(caminho_discursos, dados['grupos'][chat]))
                     pygame.mixer.music.play()
                     while pygame.mixer.music.get_busy():
                         time.sleep(0.5)

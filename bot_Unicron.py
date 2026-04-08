@@ -8,8 +8,11 @@ from PIL import Image, ImageTk
 pygame.mixer.init()
 pygame.init()
 busca = os.path.dirname(__file__)
+caminho_json = os.path.join(busca, "json")
+caminho_lilith = os.path.join(busca, "lilith")
+caminho_discursos = os.path.join(busca, "optimus")
 
-with open(os.path.join(busca, 'text.json'), "r", encoding="utf-8") as f:
+with open(os.path.join(caminho_json,'text.json'), "r", encoding="utf-8") as f:
     dados = json.load(f)
 
 Pares = [
@@ -33,89 +36,111 @@ Pares = [
   ]
   ]
 
-root = tk.Tk()
-root.title("Que desperte Optimus Prime")
+janela = tk.Tk()
+janela.geometry("500x300")
+janela.configure(bg="#696969")
+janela.title("Que desperte Optimus Prime")
+
+
 ttk.Style().configure("Barra_Carregar.TLabel", background="blue", foreground="blue")
 ttk.Style().configure("Remover_Fundo.TLabel", background="#696969", foreground="black")
-frm = ttk.Frame(root, style='Remover_Fundo.TLabel', padding=60)
-frm.grid()
+ttk.Style().configure("Entrada_Texto.TLabel",background="#949494",  foreground="black", borderwidth=1)
+animation = "Barra_Carregar.TLabel"
+cor_fundo = "Remover_Fundo.TLabel"
+entrada_texto = "Entrada_Texto.TLabel"
+
+n=int(0)
+
+
+frm = ttk.Frame(janela)
+
+
+
+caminho = os.path.join(caminho_lilith, "lilith 1.png")
+img = Image.open(caminho)
+img = img.resize((200, 120))
+
 
 class Unicron:
     def __init__(self):
         self.resposta = Chat(Pares, reflections)
 
-        caminho = os.path.join(busca, "lilith 1.png")
-
-        img = Image.open(caminho)
-        img = img.resize((200, 120))
-
         self.img = ImageTk.PhotoImage(img)
+        self.imagem = ttk.Label(janela, image=self.img)  #imagem da lilith
+        self.imagem.pack(pady=n)
 
-        self.imagem = ttk.Label(frm, image=self.img)
-        self.imagem.grid(column=0, row=0)
-        self.imagem.lower()
 
-        ttk.Label(frm, text="autobots").grid(column=0, row=1)
+        self.cabeca = ttk.Label(janela, text="autobots",font=18) #frase autobots
+        self.cabeca.pack(pady=(n+int(1)))
 
-        self.label = ttk.Label(frm, text="carregando")
-        self.label.grid(column=0, row=3)
 
-        self.comando = ttk.Label(frm, text="")
-        self.comando.grid(column=0, row=6)
-
-        self.barra = ttk.Label(frm, text="", style="Barra_Carregar.TLabel")
-        self.barra.grid(column=0, row=4)
-
-        self.resposta_label = ttk.Label(frm, text="")
-        self.resposta_label.grid(column=0, row=7)
+        self.aviso = ttk.Label(janela, text="carregando")
+        self.aviso.pack(pady=(n+int(2)))
         
-        self.entrada = tk.StringVar()
         
-        self.conversa = ttk.Entry(frm, textvariable=self.entrada)
+        self.barra = ttk.Label(janela, text="", style=animation)  #barra de loading
+        self.barra.pack(pady=(n+int(3)))
         
-        self.button = ttk.Button(frm, text="<>", command=self.megatron)
-    
+        
+        self.conversa = ttk.Entry(frm,style=entrada_texto, font=12) #caixa de texto
+        
+        self.button = ttk.Button(janela, text="<>", command=self.megatron) #envia o texto
+        
+
+        self.comando = ttk.Label(janela, text="") #última mensagem mandada para o bot
+        
+
+
+        self.resposta_label = ttk.Label(janela, text="") #resposta do chat
+        
+      
+          
         self.animar()
     
     
     def animar(self, pontos=0):
         if pontos <= 3:
-            self.label.config(text="carregando" + "." * pontos, font= 30)
+            self.aviso.config(text="carregando" + "." * pontos, font= 30)
             self.barra.config(text="_____" * (pontos + 1))
-            root.after(500, lambda: self.animar(pontos + 1))
+            janela.after(500, lambda: self.animar(pontos + 1))
         
+
         else:
-            self.label.config(text="operando", font=22)
-            self.conversa.grid(column=0, row=4)
-            self.button.grid(column=0, row=5)
+            self.aviso.config(text="operando", font=22)
+            self.barra.forget()
+            frm.pack(pady=(n+int(3)))
+            self.conversa.pack() #coloca caixa de texto
+            self.button.pack(pady=(n+int(4)))   #coloca botão
+            self.comando.pack(pady=(n+int(5)))  #coloca última mensagem mandada para o bot
     
     def megatron(self):
-        texto= self.entrada.get()
-        self.comando.config(text="vc: {}".format(texto))
-        chat = self.resposta.respond(texto.lower())
-        
-        if chat in dados["discursos"]:
+        texto= self.conversa.get()
+        self.comando.config(text=f"vc: {texto}")
+        chat = "chat: "+self.resposta.respond(texto.lower()) #chama a reação do bot
+        self.resposta_label.pack(pady=(n+int(6))) #resposta do bot
+
+        if chat in dados["discursos"]: #tocar discursos
             self.resposta_label.config(text=chat)
-            pygame.mixer.music.load(os.path.join(busca, dados['grupos'][chat]))
+            pygame.mixer.music.load(os.path.join(caminho_discursos, dados['grupos'][chat])) 
             pygame.mixer.music.play()
             pygame.mixer.music.get_busy()
                         
                     
 
-        elif chat in ["olha que dialogo merda!!!"]:
+        elif chat in ["olha que dialogo merda!!!"]:   #fechar de forma dramatica
             self.resposta_label.config(text=chat)
-            root.after(3000,root.destroy)
+            janela.after(3000,janela.destroy)
             
 
-        elif chat == None:
+        elif chat == None:     #caso o bot não tenha uma reação configurada
             self.resposta_label.config(text="isso está fora das interações")
 
-        else:
+        else:   #chamar reações normais do bot
             self.resposta_label.config(text=chat)
 
 
 
-#ttk.Label(frm, text="Hello World!" ).grid(column=0, row=0)
+#ttk.Label(janela, text="Hello World!" ).grid(column=0, row=0)
 
 
 
@@ -126,5 +151,5 @@ class Unicron:
 if __name__ == "__main__":
     
     Unicron()
-    root.mainloop()
+    janela.mainloop()
     
