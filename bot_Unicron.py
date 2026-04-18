@@ -1,4 +1,4 @@
-import pygame,json,time,os
+import json,time,os,pygame
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
@@ -27,16 +27,16 @@ animation = "Barra_Carregar.TLabel"
 cor_fundo = "Remover_Fundo.TLabel"
 entrada_texto = "Entrada_Texto.TLabel"
 
-n=int(0)
+n=int(2)
 
 
 frm = ttk.Frame(janela)
 
 
 
-caminho = os.path.join(caminho_lilith, "lilith 1.png")
+caminho = os.path.join(caminho_lilith, "lilith 2.png")
 img = Image.open(caminho)
-img = img.resize((200, 120))
+img = img.resize((200, 200))
 
 
 class Unicron:
@@ -48,7 +48,7 @@ class Unicron:
         self.imagem.pack(pady=n)
 
 
-        self.cabeca = ttk.Label(janela, text="autobots",font=18) #frase autobots
+        self.cabeca = ttk.Label(janela, text="AUTOBOTS",font=("helvetica",18,"bold")) #frase autobots
         self.cabeca.pack(pady=(n+int(1)))
 
 
@@ -97,18 +97,18 @@ class Unicron:
         
         self.resposta_label.pack(pady=(n+int(6))) #posição da resposta do bot
 
-        if texto in dados['saudacao_user']: #falar uma saudação
+        if texto.lower() in dados['saudacao_user']: #falar uma saudação
             self.resposta_label.config(text=reagir().saudacao())
 
-        elif texto in dados['nome_resposta']: #dizer nome
+        elif texto.lower() in dados['nome_resposta']: #dizer nome
             self.resposta_label.config(text=reagir.denominacao())
 
-        elif texto in dados["discurso_pedido"]: #tocar discursos
+        elif texto.lower() in dados["discurso_pedido"]: #tocar discursos
             self.escolha =reagir().escolha_discurso()
             self.resposta_label.config(text=self.escolha)
             reagir().discursar(self.escolha)
                       
-        elif texto in dados["encerrar_user"]:   #fechar de forma dramatica
+        elif texto.lower() in dados["encerrar_user"]:   #fechar de forma dramatica
             self.resposta_label.config(text=dados['encerrar_bot'])
             janela.after(3000,janela.destroy)
           

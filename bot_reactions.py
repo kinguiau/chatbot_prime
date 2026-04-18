@@ -25,7 +25,6 @@ class reagir:
        
     
     def discursar(self,escolha):
-        
         pygame.mixer.music.load(os.path.join(self.caminho_discursos, self.dados['grupos'][escolha]))
         pygame.mixer.music.play()
         pygame.mixer.music.get_busy()
