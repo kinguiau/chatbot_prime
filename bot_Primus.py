@@ -1,6 +1,7 @@
 import json,time,os
 from bot_reactions import reagir
 
+
 busca = os.path.dirname(__file__)
 
 caminho_json = os.path.join(busca, "json")
@@ -22,7 +23,7 @@ class Primus:
         print("operando")
 
         
-
+        
     def prime(self):
         while True:
             try:
@@ -43,6 +44,8 @@ class Primus:
                     print("olha que dialogo merda!!!")
                     break
 
+                else:
+                    print("fora das opções")
             except KeyboardInterrupt:
                 break
 

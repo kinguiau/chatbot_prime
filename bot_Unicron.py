@@ -100,8 +100,8 @@ class Unicron:
         if texto.lower() in dados['saudacao_user']: #falar uma saudação
             self.resposta_label.config(text=reagir().saudacao())
 
-        elif texto.lower() in dados['nome_resposta']: #dizer nome
-            self.resposta_label.config(text=reagir.denominacao())
+        elif texto.lower() in dados['nome_pergunta']: #dizer nome
+            self.resposta_label.config(text=reagir().denominacao())
 
         elif texto.lower() in dados["discurso_pedido"]: #tocar discursos
             self.escolha =reagir().escolha_discurso()
