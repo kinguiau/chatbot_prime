@@ -32,10 +32,10 @@ class Primus:
                 if texto.lower() in dados['saudacao_user']:
                     print(reagir().saudacao())
                 
-                elif texto.lower() in dados['nome_pergunta']:
+                elif texto.lower() in dados['denominacao_user']:
                     print(reagir().denominacao())
 
-                elif texto.lower() in dados["discurso_pedido"]:
+                elif texto.lower() in dados["discurso_user"]:
                     self.resposta=reagir().escolha_discurso()
                     print(self.resposta)
                     reagir().discursar(self.resposta)

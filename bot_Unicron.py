@@ -27,15 +27,15 @@ animation = "Barra_Carregar.TLabel"
 cor_fundo = "Remover_Fundo.TLabel"
 entrada_texto = "Entrada_Texto.TLabel"
 
-n=int(2)
+n=int(0)
 
 
 frm = ttk.Frame(janela)
 
 
 
-caminho = os.path.join(caminho_lilith, "lilith 2.png")
-img = Image.open(caminho)
+caminho_imagem = os.path.join(caminho_lilith, "lilith 2.png")
+img = Image.open(caminho_imagem)
 img = img.resize((200, 200))
 
 
@@ -100,10 +100,10 @@ class Unicron:
         if texto.lower() in dados['saudacao_user']: #falar uma saudação
             self.resposta_label.config(text=reagir().saudacao())
 
-        elif texto.lower() in dados['nome_pergunta']: #dizer nome
+        elif texto.lower() in dados['denominacao_user']: #dizer nome
             self.resposta_label.config(text=reagir().denominacao())
 
-        elif texto.lower() in dados["discurso_pedido"]: #tocar discursos
+        elif texto.lower() in dados["discurso_user"]: #tocar discursos
             self.escolha =reagir().escolha_discurso()
             self.resposta_label.config(text=self.escolha)
             reagir().discursar(self.escolha)

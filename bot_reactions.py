@@ -17,11 +17,11 @@ class reagir:
         self.resposta=random.choice(self.dados['saudacao_bot'])
         return(self.resposta)
     def denominacao(self):
-        self.resposta=random.choice(self.dados['nome_resposta'])
+        self.resposta=random.choice(self.dados['denominacao_bot'])
         return(self.resposta)
     
     def escolha_discurso(self):
-       return random.choice(self.dados["discursos"])
+       return random.choice(self.dados["discursos_bot"])
        
     
     def discursar(self,escolha):
