@@ -1,5 +1,5 @@
 from google import genai
-import json,os 
+import json,os
 
 busca = os.path.dirname(__file__)
 caminho_json = os.path.join(busca, "json")

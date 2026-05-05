@@ -2,7 +2,7 @@ import json,time,os,pygame
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-from bot_reactions import reagir
+from bot_Reactions import reagir
 
 
 busca = os.path.dirname(__file__)
@@ -63,7 +63,7 @@ class Unicron:
         self.conversa = ttk.Entry(frm,style=entrada_texto, font=12) #caixa de texto
         
         self.button = ttk.Button(janela, text="<>", command=self.megatron) #envia o texto
-        
+        self.conversa.bind("<Return>", self.megatron)
 
         self.comando = ttk.Label(janela, text="") #última mensagem mandada para o bot
         
@@ -91,7 +91,7 @@ class Unicron:
             self.button.pack(pady=(n+int(4)))   #coloca botão
             self.comando.pack(pady=(n+int(5)))  #coloca última mensagem mandada para o bot
     
-    def megatron(self):
+    def megatron(self, event=None):
         texto= self.conversa.get()
         self.comando.config(text=f"vc: {texto}")
         

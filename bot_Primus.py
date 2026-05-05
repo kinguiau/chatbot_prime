@@ -1,5 +1,5 @@
 import json,time,os
-from bot_reactions import reagir
+from bot_Reactions import reagir
 
 
 busca = os.path.dirname(__file__)
